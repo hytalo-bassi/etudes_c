@@ -11,6 +11,18 @@ struct LinkedNode {
   struct LinkedNode *next;
 };
 
+struct LinkedNode* insert(struct LinkedNode *last_node, int val) {
+  struct LinkedNode *current_node = (struct LinkedNode*) malloc(sizeof (struct LinkedNode));
+  current_node->val = val;
+  current_node->next = NULL;
+
+  if (last_node != NULL) {
+    last_node->next = current_node;
+  }
+
+  return current_node;
+}
+
 void print(struct LinkedNode *node) {
   if (node == NULL) {
     return;
@@ -34,7 +46,7 @@ int main() {
   int i = 0;
 
   while (1) {
-    char input[4];
+    char input[255];
     puts("Inform a value and press Enter (write s to stop): ");
     scanf("%s", &input);
     
@@ -43,22 +55,17 @@ int main() {
     }
     
     int val = atoi(input);
-    
-    struct LinkedNode *current_node = (struct LinkedNode*) malloc(sizeof (struct LinkedNode));
-    current_node->val = val;
-    current_node->next = NULL;
-  
+      
     if (i == 0) {
-      first_node = *current_node;
+      first_node = *insert(NULL, val);
       last_node = &first_node;
     } else {
-      last_node->next = current_node;
-      last_node = current_node;
+      last_node = insert(last_node, val);
     }
 
     i++;
   }
-
   print(&first_node);
+
   return EXIT_SUCCESS;
 }
